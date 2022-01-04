@@ -7,7 +7,7 @@ public class JavaBasicTests {
         boolean isManager = false;
         byte byt = 10;
         short sh = 10;
-        long lng = 464646464646L;
+        long lng = 464444444465443L;
         String nm = "android";
     }
 
