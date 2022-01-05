@@ -5,18 +5,19 @@ import org.junit.jupiter.api.Test;
 
 public class AnimalTests {
     @Test
-    void testAnimalObject(){
-        Animal animal=new Tiger();
+    void testAnimalObject() {
+        Animal animal = new Tiger();
         Assertions.assertNotNull(animal);
     }
 
     @Test
-    void testTigerWalking(){
-        var tiger=new Tiger();
+    void testTigerWalking() {
+        var tiger = new Tiger();
         var expected = "Tiger is walking";
         var actual = tiger.walk();
-        Assertions.assertEquals(expected,actual);
+        Assertions.assertEquals(expected, actual);
     }
+
     @Test
     void testTigerLocation() {
         var tiger = new Tiger();
