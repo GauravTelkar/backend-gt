@@ -1,9 +1,6 @@
 package service;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class DbService {
     private final Connection connection;
@@ -20,9 +17,8 @@ public class DbService {
         ps.setString(2, empNm);
         ps.setDate(3, dob);
         ps.setBoolean(4, isManager);
-        // above lines create SQL statement
 
-        int affected = ps.executeUpdate(); // actually firing the query
+        int affected = ps.executeUpdate();
         return affected;
     }
 
@@ -36,8 +32,18 @@ public class DbService {
         return 0;
     }
 
-    // select query
-    public void find() {
-
+    public void find() throws SQLException {
+        String sql = "select * from emp_info";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            int id = rs.getInt("emp_id");
+            String name = rs.getString("emp_name");
+            Date dob = rs.getDate("dob");
+            boolean isManager = rs.getBoolean("is_manager");
+            System.out.println(" id : " + id + " name : " + name + " dob : " + dob.toString() + " Manager : " + isManager);
+        }
+        rs.close();
     }
+
 }
