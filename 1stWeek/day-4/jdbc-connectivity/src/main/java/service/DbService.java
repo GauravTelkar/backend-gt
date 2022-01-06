@@ -1,9 +1,10 @@
 package service;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
 public class DbService {
     private final Connection connection;
 
@@ -18,7 +19,7 @@ public class DbService {
         ps.setInt(1, empId);
         ps.setString(2, empNm);
         ps.setDate(3, dob);
-        ps.setBoolean(4, isManager );
+        ps.setBoolean(4, isManager);
         // above lines create SQL statement
 
         int affected = ps.executeUpdate(); // actually firing the query

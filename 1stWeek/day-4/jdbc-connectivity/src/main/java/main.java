@@ -4,6 +4,7 @@ import service.DbService;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
+
 public class main {
     public static void main(String[] args) {
 
@@ -17,7 +18,7 @@ public class main {
                     Date.valueOf(LocalDate.now()),
                     true
             );
-            if(cnt > 0) {
+            if (cnt > 0) {
                 System.out.println("Employee Created Successfully");
             }
 
