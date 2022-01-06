@@ -13,7 +13,7 @@ public class main {
 
             DbService service = new DbService(connectivity.getConnection());
             int cnt = service.create(
-                    6,
+                    8,
                     "abc",
                     Date.valueOf(LocalDate.now()),
                     true
@@ -24,8 +24,11 @@ public class main {
 
 
             service.find();  //this is to call DbService (display the data)
+
             System.out.println("--------------------------------------------");
-            service.findEmployeeByName("abc");
+
+            service.findEmployeeByName("pqr");
+
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {

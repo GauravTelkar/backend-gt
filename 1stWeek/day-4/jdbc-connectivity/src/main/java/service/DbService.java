@@ -51,10 +51,7 @@ public class DbService {
         ps.setString(1,name);
 
         ResultSet rs= ps.executeQuery();
-        if(!rs.next()){
-            System.out.println("no record found dor given name = "+name);
-            return;
-        }
+
         while (rs.next()){
             int id = rs.getInt("emp_id");
             String nm = rs.getString("emp_name");
