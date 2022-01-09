@@ -5,7 +5,7 @@ import java.sql.*;
 public class AccountCreation {
     private final Connection connection;
 
-    public AccountCreation(Connection connection){
+    public AccountCreation(Connection connection) {
         this.connection = connection;
     }
 
@@ -15,14 +15,18 @@ public class AccountCreation {
         ps.setInt(1, account_num);
         ps.setInt(2, amount);
         ps.setString(3, account_hld_name);
-        ps.setDate(4, dob );
-        ps.setBoolean(5,status);
-        // above 5 lines create SQL statement
+        ps.setDate(4, dob);
+        ps.setBoolean(5, status);
+        try {
 
-        int affected = ps.executeUpdate(); // actually firing the query
-        connection.commit();
-        return affected;
+            int affected = ps.executeUpdate(); // actually firing the query
+
+            System.out.println("Account has been created");
+            connection.commit();
+            return affected;
+        } catch (SQLIntegrityConstraintViolationException e) {
+            System.out.println("Account already exits");
+            return 0;
+        }
     }
-
-
 }

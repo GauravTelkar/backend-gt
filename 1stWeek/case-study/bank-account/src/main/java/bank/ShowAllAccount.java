@@ -10,7 +10,7 @@ public class ShowAllAccount {
     }
 
 
-    public void show() throws SQLException {
+    public int show() throws SQLException {
         String sql = "select * from bank_account";
         PreparedStatement ps = connection.prepareStatement(sql);
 
@@ -24,7 +24,11 @@ public class ShowAllAccount {
 
             System.out.println(" id : " + id + ", amount" + amount + ", name : " + name + ", dob : " + dob.toString() + ", status : " + status);
         }
+
+
+       // int affected = ps.executeUpdate(); // actually firing the query
+        System.out.println("Account has Deactivated");
         connection.commit();
-        rs.close(); // important to close the result set
+        return 1;
     }
 }

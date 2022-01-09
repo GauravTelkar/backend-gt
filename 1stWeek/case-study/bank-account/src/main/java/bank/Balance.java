@@ -9,17 +9,18 @@ public class Balance {
         this.connection = connection;
     }
     public void balance(int id) throws SQLException {
-        String sql = " select amount from bank_account where account_num = ?";
+        String sql = "select amount from bank_account where account_num = ? ";
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setInt(1,id);
         ResultSet rs = ps.executeQuery();
 
         while(rs.next()) {
-        //    int account_num = rs.getInt("account_num");
+            //    int account_num = rs.getInt("account_num");
             int amount = rs.getInt("amount");
-       //     String  account_hld_name = rs.getString("account_hld_name");
-      //      Date dob = rs.getDate(" account_cre_date");
-        //    boolean isManager = rs.getBoolean("status");
+
+            //     String  account_hld_name = rs.getString("account_hld_name");
+            //      Date dob = rs.getDate(" account_cre_date");
+            //    boolean isManager = rs.getBoolean("status");
             System.out.println("Amount : " + amount);
         }
 
