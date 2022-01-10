@@ -5,7 +5,7 @@ import java.sql.*;
 public class ShowAllAccount {
     private final Connection connection;
 
-    public ShowAllAccount(Connection connection){
+    public ShowAllAccount(Connection connection) {
         this.connection = connection;
     }
 
@@ -26,7 +26,7 @@ public class ShowAllAccount {
         }
 
 
-       // int affected = ps.executeUpdate(); // actually firing the query
+        // int affected = ps.executeUpdate(); // actually firing the query
         System.out.println("Account has Deactivated");
         connection.commit();
         return 1;

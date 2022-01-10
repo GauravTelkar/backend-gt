@@ -12,21 +12,21 @@ public class AccountCreationTests {
     @DisplayName("Checking for expected and actual")
     @Test
     public void checkSame() throws SQLException, ClassNotFoundException {
-        Connectivity connectivity= new Connectivity();
+        Connectivity connectivity = new Connectivity();
         AccountCreation ac = new AccountCreation(connectivity.getConnection());
-    var expected = 1;
-    var actual = ac.create(108, 12000 , "gt", Date.valueOf(LocalDate.now()),true);
-        Assertions.assertEquals(expected,actual);
+        var expected = 1;
+        var actual = ac.create(108, 12000, "gt", Date.valueOf(LocalDate.now()), true);
+        Assertions.assertEquals(expected, actual);
     }
 
     @DisplayName("Test for dublicate values")
     @Test
     public void testDublicate() throws SQLException, ClassNotFoundException {
-        Connectivity connectivity= new Connectivity();
+        Connectivity connectivity = new Connectivity();
         AccountCreation ac = new AccountCreation(connectivity.getConnection());
         var expected = 0;
-        var actual = ac.create(108, 12000 , "gt", Date.valueOf(LocalDate.now()),true);
-        Assertions.assertEquals(expected,actual);
+        var actual = ac.create(108, 12000, "gt", Date.valueOf(LocalDate.now()), true);
+        Assertions.assertEquals(expected, actual);
 
     }
 }
