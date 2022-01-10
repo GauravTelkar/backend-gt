@@ -12,6 +12,7 @@ public class ActivateAccount {
     }
 
     public int active(int id) throws SQLException {
+
         String sql = " update bank_account set status= 1 where account_num = ?";
         // String sql2= "select status from bank_account where account_num= ?";
         PreparedStatement ps = connection.prepareStatement(sql);
