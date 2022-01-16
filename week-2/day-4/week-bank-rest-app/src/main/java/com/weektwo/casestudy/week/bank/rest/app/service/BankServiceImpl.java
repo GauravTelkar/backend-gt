@@ -154,34 +154,7 @@ public class BankServiceImpl implements BankService {
         return baNew2.getBalance();
     }
 
-  /*   @Override
-    public int transferMoney(Long srcAc, Long dstAc, double amt) throws InvalidAmountException {
-        if (amt <= 0) throw new InvalidAmountException("Amount Should be Non Zero Positive " + amt);
 
-        Optional<AmountTransferDto> op1 = repository.findById1(srcAc);
-
-        AmountTransferDto baOld = op1.orElseThrow();
-        double existingBalance = baOld.getAmt();
-        double newBalance = existingBalance - amt;
-
-        AmountTransferDto baNew1 = new AmountTransferDto();
-        baNew1.setAmt(newBalance);
-        baNew1.setSrcAc(baOld.getSrcAc());
-
-
-
-       Optional<AmountTransferDto> op2 = repository.findById2(dstAc);
-        AmountTransferDto baOld1 = op2.orElseThrow();
-        double existingBalance1 = baOld1.getAmt();
-        double newBalance1 = existingBalance1 + amt;
-
-        AmountTransferDto baNew1 = new AmountTransferDto();
-        baNew1.setAmt(newBalance1);
-        baNew1.setSrcAc(baOld1.getSrcAc());
-
-        return Math.toIntExact(baNew1.getSrcAc());
-        return  0;
-    }  */
 
     @Override
     public List<BankAccount> findAccountByAcNum(Long acNum) {

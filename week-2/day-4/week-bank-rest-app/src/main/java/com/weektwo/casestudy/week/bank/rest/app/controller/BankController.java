@@ -23,7 +23,8 @@ public class BankController {
     @Autowired
     private BankService service;
 
-    @PostMapping // POST -> http://localhost:8080/bank/
+
+    @PostMapping("/add") // POST -> http://localhost:8080/bank/
     public ResponseEntity<AppResponse<Integer>> createBankAccount(@RequestBody BankAccount ba) {
 
         logger.info("creating bank account");
@@ -122,24 +123,6 @@ public class BankController {
         return ResponseEntity.ok(response);
     }
 
-  /*  @PutMapping("/transfer") // PUT -> http://localhost:8080/bank/transfer
-    public ResponseEntity<AppResponse<Double>> depositMoney(@RequestBody AmountTransferDto at) {
-        try {
-            double amt1 = service.transferMoney(at.getSrcAc(), at.getDstAc(), at.getAmt());
-            var response = new AppResponse<Double>();
-            response.setMsg("money deposit successfully");
-            response.setSts("success");
-            response.setBody(amt1);
-            return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
-        }
-        catch (InvalidAmountException e) {
-            var response = new AppResponse<Double>();
-            response.setMsg(e.getMessage());
-            response.setSts("fail");
-            response.setBody(0.0);
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
-    }   */
 
     @PutMapping("/transfer") // PUT -> http://localhost:8080/bank/transfer
     public ResponseEntity<AppResponse<Double>> transfer(@RequestBody BankAccount ba) {
@@ -158,6 +141,11 @@ public class BankController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
+    }
+
+    @PutMapping ("/update")// PUT - http://localhost:8080/bank/update
+    public BankAccount updateAccount(@RequestBody BankAccount updatedAccount) {
+        return updatedAccount;
     }
 
 }
