@@ -18,9 +18,9 @@ public interface BankService {
 
     double deposit(Long acNum, double amt) throws InvalidAmountException;
 
-    int transferMoney(Long srcAc, Long dstAc, double amt) throws InvalidAmountException;
+    double transferMoney(Long acNum, Long acNum2 , double amt) throws InvalidAmountException;
 
-    BankAccount findAccountByAcNum(Long acNum);
+    List<BankAccount> findAccountByAcNum(Long acNum);
 
     List<BankAccount> findAllBankAccounts();
 

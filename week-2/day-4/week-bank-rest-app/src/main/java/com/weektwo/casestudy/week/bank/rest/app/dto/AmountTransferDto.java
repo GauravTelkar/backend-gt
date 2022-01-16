@@ -1,10 +1,10 @@
 package com.weektwo.casestudy.week.bank.rest.app.dto;
 
-public class AmountTransferDto <T>{
+public class AmountTransferDto {
     private Long srcAc;
     private Long dstAc;
     private Double amt;
-    private T body;
+
 
     public Long getSrcAc() {
         return srcAc;
@@ -30,11 +30,5 @@ public class AmountTransferDto <T>{
         this.amt = amt;
     }
 
-    public T getBody() {
-        return body;
-    }
 
-    public void setBody(T body) {
-        this.body = body;
-    }
 }
