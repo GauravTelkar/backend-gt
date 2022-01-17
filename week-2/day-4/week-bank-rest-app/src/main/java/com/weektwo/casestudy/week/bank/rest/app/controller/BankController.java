@@ -44,10 +44,17 @@ public class BankController {
         try {
             double amt = service.withdraw1(ba.getAcNum(), ba.getBalance());
             var response = new AppResponse<Double>();
-            response.setMsg("money withdrawn successfully");
-            response.setSts("success");
-            response.setBody(amt);
-            return new ResponseEntity<>(response, HttpStatus.OK);
+            if(amt==0){
+                response.setSts("fail");
+                response.setBody(0.0);
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+            }
+            else {
+                response.setMsg("money withdrawn successfully");
+                response.setSts("success");
+                response.setBody(amt);
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
         } catch (InvalidAmountException e) {
             var response = new AppResponse<Double>();
             response.setMsg(e.getMessage());
@@ -63,10 +70,17 @@ public class BankController {
         try {
             double amt = service.deposit(ba.getAcNum(), ba.getBalance());
             var response = new AppResponse<Double>();
-            response.setMsg("money deposit successfully");
-            response.setSts("success");
-            response.setBody(amt);
-            return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+            if(amt==0){
+                response.setSts("fail");
+                response.setBody(0.0);
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+            }
+            else {
+                response.setMsg("money deposit successfully");
+                response.setSts("success");
+                response.setBody(amt);
+                return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+            }
         } catch (InvalidAmountException e) {
             var response = new AppResponse<Double>();
             response.setMsg(e.getMessage());
@@ -129,10 +143,17 @@ public class BankController {
         try {
             double amt = service.transferMoney(ba.getAcNum(), ba.getAcNum2(), ba.getBalance());
             var response = new AppResponse<Double>();
-            response.setMsg("money deposit successfully");
-            response.setSts("success");
-            response.setBody(amt);
-            return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+            if (amt == 0) {
+                response.setSts("fail");
+                response.setBody(0.0);
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+            } else {
+
+                response.setMsg("money transfer successfully");
+                response.setSts("success");
+                response.setBody(amt);
+                return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+            }
         } catch (InvalidAmountException e) {
             var response = new AppResponse<Double>();
             response.setMsg(e.getMessage());
@@ -140,8 +161,8 @@ public class BankController {
             response.setBody(0.0);
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
-
     }
+
 
     @PutMapping ("/update")// PUT - http://localhost:8080/bank/update
     public BankAccount updateAccount(@RequestBody BankAccount updatedAccount) {

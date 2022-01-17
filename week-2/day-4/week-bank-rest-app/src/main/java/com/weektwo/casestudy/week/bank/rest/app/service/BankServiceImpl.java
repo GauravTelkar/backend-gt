@@ -82,18 +82,27 @@ public class BankServiceImpl implements BankService {
 
         BankAccount baOld = op.orElseThrow();
         double existingBalance = baOld.getBalance();
-        double newBalance = existingBalance - amt;
-        BankAccount baNew = new BankAccount();
-        baNew.setBalance(newBalance);
-        baNew.setAcCrDt(baOld.getAcCrDt());
-        baNew.setStatus(baOld.getStatus());
-        baNew.setAcHldNm(baOld.getAcHldNm());
-        baNew.setAcNum(baOld.getAcNum());
 
-        repository.save(baNew);
+        Boolean existingStatus = baOld.getStatus();
 
-        return baNew.getBalance();
+        if (existingStatus == false) {
+            return 0;
+        }
+        else {
 
+            double newBalance = existingBalance - amt;
+            BankAccount baNew = new BankAccount();
+            baNew.setBalance(newBalance);
+            baNew.setAcCrDt(baOld.getAcCrDt());
+            baNew.setStatus(baOld.getStatus());
+            baNew.setAcHldNm(baOld.getAcHldNm());
+            baNew.setAcNum(baOld.getAcNum());
+
+            repository.save(baNew);
+
+            return baNew.getBalance();
+
+        }
     }
 
     @Override
@@ -107,18 +116,27 @@ public class BankServiceImpl implements BankService {
 
         BankAccount baOld = op.orElseThrow();
         double existingBalance = baOld.getBalance();
-        double newBalance = existingBalance + amt;
 
-        BankAccount baNew = new BankAccount();
-        baNew.setBalance(newBalance);
-        baNew.setAcCrDt(baOld.getAcCrDt());
-        baNew.setStatus(baOld.getStatus());
-        baNew.setAcHldNm(baOld.getAcHldNm());
-        baNew.setAcNum(baOld.getAcNum());
+        Boolean existingStatus = baOld.getStatus();
 
-        repository.save(baNew);
+        if (existingStatus != true) {
+            return 0;
+        }
+        else {
+            double newBalance = existingBalance + amt;
 
-        return baNew.getBalance();
+            BankAccount baNew = new BankAccount();
+            baNew.setBalance(newBalance);
+            baNew.setAcCrDt(baOld.getAcCrDt());
+            baNew.setStatus(baOld.getStatus());
+            baNew.setAcHldNm(baOld.getAcHldNm());
+            baNew.setAcNum(baOld.getAcNum());
+
+            repository.save(baNew);
+
+            return baNew.getBalance();
+
+        }
     }
 
     public double transferMoney(Long acNum, Long acNum2, double amt) throws InvalidAmountException {
@@ -127,33 +145,44 @@ public class BankServiceImpl implements BankService {
 
         BankAccount baOld = op.orElseThrow();
         double existingBalance = baOld.getBalance();
-        double newBalance = existingBalance - amt;
+        Boolean existingStatus = baOld.getStatus();
 
-        BankAccount baNew = new BankAccount();
-        baNew.setBalance(newBalance);
-        baNew.setAcCrDt(baOld.getAcCrDt());
-        baNew.setStatus(baOld.getStatus());
-        baNew.setAcHldNm(baOld.getAcHldNm());
-        baNew.setAcNum(baOld.getAcNum());
+        if (existingStatus != true) {
+            return 0;
+        } else {
+            double newBalance = existingBalance - amt;
 
-        repository.save(baNew);
+            BankAccount baNew = new BankAccount();
+            baNew.setBalance(newBalance);
+            baNew.setAcCrDt(baOld.getAcCrDt());
+            baNew.setStatus(baOld.getStatus());
+            baNew.setAcHldNm(baOld.getAcHldNm());
+            baNew.setAcNum(baOld.getAcNum());
 
-        Optional<BankAccount> op2 = repository.findById(acNum2);
-        BankAccount baOld2 = op2.orElseThrow();
-        double existingBalance2 = baOld2.getBalance();
-        double newBalance2 = existingBalance2 + amt;
-        BankAccount baNew2 = new BankAccount();
-        baNew2.setBalance(newBalance2);
-        baNew2.setAcCrDt(baOld2.getAcCrDt());
-        baNew2.setStatus(baOld2.getStatus());
-        baNew2.setAcHldNm(baOld2.getAcHldNm());
-        baNew2.setAcNum(baOld2.getAcNum());
+            repository.save(baNew);
 
-        repository.save(baNew2);
+            Optional<BankAccount> op2 = repository.findById(acNum2);
+            BankAccount baOld2 = op2.orElseThrow();
+            double existingBalance2 = baOld2.getBalance();
 
-        return baNew2.getBalance();
+            Boolean existingStatus1 = baOld2.getStatus();
+            if (existingStatus1 != true) {
+                return 0;
+            } else {
+                double newBalance2 = existingBalance2 + amt;
+                BankAccount baNew2 = new BankAccount();
+                baNew2.setBalance(newBalance2);
+                baNew2.setAcCrDt(baOld2.getAcCrDt());
+                baNew2.setStatus(baOld2.getStatus());
+                baNew2.setAcHldNm(baOld2.getAcHldNm());
+                baNew2.setAcNum(baOld2.getAcNum());
+
+                repository.save(baNew2);
+
+                return baNew2.getBalance();
+            }
+        }
     }
-
 
 
     @Override
