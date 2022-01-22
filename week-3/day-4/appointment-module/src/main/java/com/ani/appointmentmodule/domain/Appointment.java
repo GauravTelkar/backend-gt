@@ -3,6 +3,8 @@ package com.ani.appointmentmodule.domain;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.time.LocalDate;
 
@@ -14,6 +16,8 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotNull
+    @NotBlank
     @Column(unique = false, nullable = false)
     private String type;
 
@@ -25,6 +29,5 @@ public class Appointment {
 
     @Column(unique = true, nullable = true)
     private String doctorName;
-
 
 }

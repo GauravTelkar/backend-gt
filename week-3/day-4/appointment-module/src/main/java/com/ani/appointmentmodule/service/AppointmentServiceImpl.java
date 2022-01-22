@@ -2,8 +2,11 @@ package com.ani.appointmentmodule.service;
 
 import com.ani.appointmentmodule.domain.Appointment;
 import com.ani.appointmentmodule.dto.AppointmentDto;
+import com.ani.appointmentmodule.exception.AppointementAlreadyExisting;
+import com.ani.appointmentmodule.exception.DateOutOfBound;
 import com.ani.appointmentmodule.repository.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -19,27 +22,29 @@ public class AppointmentServiceImpl implements AppointmentService{
     @Override
     public AppointmentDto createAppointment(AppointmentDto dto){
 
-        var appoint = new Appointment();
-        appoint.setType(dto.getType());
-        appoint.setAppointment(dto.getAppointment());
-        appoint.setPlaced(dto.getPlaced());
-        appoint.setDoctorName(dto.getDoctorName());
 
-        repository.save(appoint);
-        return dto;
+            var appoint = new Appointment();
+            appoint.setType(dto.getType());
+            appoint.setAppointment(dto.getAppointment());
+            appoint.setPlaced(dto.getPlaced());
+            appoint.setDoctorName(dto.getDoctorName());
+
+            repository.save(appoint);
+            return dto;
+
     }
     @Override
-    public LocalDate setAppointment(Long id, LocalDate appointment,String type) {
-        Optional<Appointment> op = repository.findById(id);
-        Appointment baOld = op.orElseThrow();
-        LocalDate existingAppointment = baOld.getAppointment();
+    public LocalDate setAppointment(Long id, LocalDate appointment,String type) throws DateOutOfBound, AppointementAlreadyExisting {
 
-        LocalDate today = LocalDate.from(LocalDateTime.now());
-        int compareValue = today.compareTo(appointment);
-        if (compareValue > 0) {
-
+            Optional<Appointment> op = repository.findById(id);
+            Appointment baOld = op.orElseThrow();
+            LocalDate existingAppointment = baOld.getAppointment();
+            LocalDate today = LocalDate.from(LocalDateTime.now());
+            int compareValue = today.compareTo(appointment);
+            if (compareValue > 0) throw new DateOutOfBound("Given date is not exceeding today's date");
             String existingType = baOld.getType();
             LocalDate newAppointment = appointment;
+
             String newType = type;
             Appointment baNew = new Appointment();
             baNew.setAppointment(appointment);
@@ -51,25 +56,26 @@ public class AppointmentServiceImpl implements AppointmentService{
             repository.save(baNew);
 
             return baNew.getAppointment();
-        }
-        return today;
+
     }
     @Override
-    public String cancelAppointment(Long id,String type){
-        Optional<Appointment> op = repository.findById(id);
-        Appointment baOld = op.orElseThrow();
-        String existingType = baOld.getType();
-        String newType= type;
-        Appointment baNew = new Appointment();
-        baNew.setAppointment(baOld.getAppointment());
-        baNew.setId(baOld.getId());
-        baNew.setType(newType);
-        baNew.setPlaced(baOld.getPlaced());
-        baNew.setDoctorName(baOld.getDoctorName());
+    public String cancelAppointment(Long id)   {
+            Optional<Appointment> op = repository.findById(id);
+            Appointment baOld = op.orElseThrow();
+            String existingType = baOld.getType();
+            String newType = "cancel";
+            Appointment baNew = new Appointment();
+            baNew.setAppointment(baOld.getAppointment());
+            baNew.setId(baOld.getId());
+            baNew.setType(newType);
+            baNew.setPlaced(baOld.getPlaced());
+            baNew.setDoctorName(baOld.getDoctorName());
 
-        repository.save(baNew);
+            repository.save(baNew);
 
-        return baNew.getType();
+            return baNew.getType();
+
+
     }
 
     @Override
@@ -84,9 +90,7 @@ public class AppointmentServiceImpl implements AppointmentService{
         baNew.setType(newType);
         baNew.setPlaced(baOld.getPlaced());
         baNew.setDoctorName(baOld.getDoctorName());
-
         repository.save(baNew);
-
         return baNew.getType();
     }
 
