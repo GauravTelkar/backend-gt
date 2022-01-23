@@ -4,13 +4,14 @@ import com.ani.appointmentmodule.domain.Appointment;
 import com.ani.appointmentmodule.dto.AppointmentDto;
 import com.ani.appointmentmodule.exception.AppointementAlreadyExisting;
 import com.ani.appointmentmodule.exception.DateOutOfBound;
+import com.ani.appointmentmodule.exception.DuplicateException;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public interface AppointmentService {
 
-    public AppointmentDto createAppointment(AppointmentDto dto);
+    public AppointmentDto createAppointment(AppointmentDto dto) throws DuplicateException;
 
     LocalDate setAppointment(Long id, LocalDate appointment,String type) throws DateOutOfBound, AppointementAlreadyExisting;
 

@@ -50,7 +50,7 @@ public class AppointmentControllerTests {
         app.setType("opd");
         app.setAppointment(LocalDate.now());
         app.setPlaced(LocalDate.now());
-        app.setDoctorName("suresh12");
+        app.setDoctorName("bhuvana");
 
         var re = template.postForEntity(url,app,Appointment.class);
         Assertions.assertEquals(HttpStatus.OK,re.getStatusCode());

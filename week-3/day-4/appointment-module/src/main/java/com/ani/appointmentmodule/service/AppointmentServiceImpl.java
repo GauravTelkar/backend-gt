@@ -4,11 +4,14 @@ import com.ani.appointmentmodule.domain.Appointment;
 import com.ani.appointmentmodule.dto.AppointmentDto;
 import com.ani.appointmentmodule.exception.AppointementAlreadyExisting;
 import com.ani.appointmentmodule.exception.DateOutOfBound;
+import com.ani.appointmentmodule.exception.DuplicateException;
 import com.ani.appointmentmodule.repository.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -20,18 +23,19 @@ public class AppointmentServiceImpl implements AppointmentService{
     private AppointmentRepository repository;
 
     @Override
-    public AppointmentDto createAppointment(AppointmentDto dto){
-
-
+    public AppointmentDto createAppointment(AppointmentDto dto) throws DuplicateException {
+        try {
             var appoint = new Appointment();
             appoint.setType(dto.getType());
             appoint.setAppointment(dto.getAppointment());
             appoint.setPlaced(dto.getPlaced());
             appoint.setDoctorName(dto.getDoctorName());
-
             repository.save(appoint);
             return dto;
-
+        }
+        catch (DataIntegrityViolationException e){
+            throw new DuplicateException("You have entered duplicate key value");
+        }
     }
     @Override
     public LocalDate setAppointment(Long id, LocalDate appointment,String type) throws DateOutOfBound, AppointementAlreadyExisting {
@@ -74,7 +78,6 @@ public class AppointmentServiceImpl implements AppointmentService{
             repository.save(baNew);
 
             return baNew.getType();
-
 
     }
 

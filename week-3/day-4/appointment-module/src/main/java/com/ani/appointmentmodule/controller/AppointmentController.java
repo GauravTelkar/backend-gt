@@ -6,6 +6,7 @@ import com.ani.appointmentmodule.dto.AppointmentBetweenDto;
 import com.ani.appointmentmodule.dto.AppointmentDto;
 import com.ani.appointmentmodule.exception.AppointementAlreadyExisting;
 import com.ani.appointmentmodule.exception.DateOutOfBound;
+import com.ani.appointmentmodule.exception.DuplicateException;
 import com.ani.appointmentmodule.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +30,7 @@ public class AppointmentController {
     private AppointmentService service;
 
     @PostMapping
-    public ResponseEntity<AppResponse<AppointmentDto>> createAppointment(@Valid @RequestBody AppointmentDto dto) {
+    public ResponseEntity<AppResponse<AppointmentDto>> createAppointment(@Valid @RequestBody AppointmentDto dto) throws DuplicateException {
         var svObj = service.createAppointment(dto);
 
         var response = new AppResponse<AppointmentDto>();
@@ -50,15 +50,13 @@ public class AppointmentController {
             response.setStatus("success");
             response.setBody(stat);
             return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
-        }
-        catch (DateOutOfBound e) {
+        } catch (DateOutOfBound e) {
             var response = new AppResponse<LocalDate>();
             response.setMessage(e.getMessage());
             response.setStatus("fail");
-           // response.setBody("");
+            // response.setBody("");
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
-        catch (AppointementAlreadyExisting e){
+        } catch (AppointementAlreadyExisting e) {
             var response = new AppResponse<LocalDate>();
             response.setMessage(e.getMessage());
             response.setStatus("fail");
@@ -92,12 +90,12 @@ public class AppointmentController {
     }
 
     @GetMapping("/between")
-    public ResponseEntity<AppResponse<List<AppointmentDto>>> findBetween(@RequestBody AppointmentBetweenDto dto){
-        var response=new AppResponse<List<AppointmentDto>>();
+    public ResponseEntity<AppResponse<List<AppointmentDto>>> findBetween(@RequestBody AppointmentBetweenDto dto) {
+        var response = new AppResponse<List<AppointmentDto>>();
         response.setStatus("success");
         response.setMessage("List of appointment ");
-        response.setBody(service.getDaysBetweenDates(dto.getStart(),dto.getEnd()));
-        return  ResponseEntity.ok(response);
+        response.setBody(service.getDaysBetweenDates(dto.getStart(), dto.getEnd()));
+        return ResponseEntity.ok(response);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -107,7 +105,7 @@ public class AppointmentController {
 
         List<ObjectError> errors = ex.getBindingResult().getAllErrors();
 
-        for(ObjectError oe : errors) {
+        for (ObjectError oe : errors) {
             FieldError fe = (FieldError) oe;
 
             String errorField = fe.getField(); // it will tell. which is error filed

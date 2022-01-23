@@ -27,7 +27,6 @@ public class AppointmentRepositoryTests {
         app.setAppointment(LocalDate.now());
         app.setDoctorName("abc");
         app.setPlaced(LocalDate.now());
-
         repository.save(app);
     }
 }
